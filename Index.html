@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="Shortcut Icon" href="./Image_Resource/logo.ico" type="image/x-icon" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>一句</title>
+    <link href="./JS_File/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="JS_File/Style_Sheet.css" />
+    <script src="./JS_File/jinrishici.js" charset="utf-8"></script>
+    <script src="./JS_File/fitty.js"></script>
+    <script type="text/javascript">
+      function ready(callback) {
+        if (document.readyState != "loading") callback();
+        else if (document.addEventListener)
+          document.addEventListener("DOMContentLoaded", callback);
+        else
+          document.attachEvent("onreadystatechange", function () {
+            if (document.readyState == "complete") callback();
+          });
+      }
+      function update() {
+        jinrishici.load(function (result) {
+          ready(function () {
+            var button = document.getElementById("update");
+            button.className = button.className + " disabled";
+            var sentence = document.getElementById("sentence");
+            sentence.innerText = result.data.content.substr(
+              0,
+              result.data.content.length - 1
+            );
+            var tags = document.getElementById("tags");
+            var tag_html = "";
+            for (var j = 0, len = result.data.matchTags.length; j < len; j++) {
+              tag_html += '<span class="badge badge-pill badge-primary">';
+              tag_html += result.data.matchTags[j];
+              tag_html += "</span>\n";
+            }
+            fitty(sentence, { maxSize: 40 });
+            tags.innerHTML = tag_html;
+            setTimeout(function () {
+              button.className = button.className.replace(" disabled", "");
+            }, 1000);
+          });
+        });
+        return false;
+      }
+      update();
+    </script>
+  </head>
+
+  <body>
+    <div class="top-wrap" style="position: absolute; top: 1vh; width: 100%; z-index: 999" >
+      <div class="container">
+        <div class="row" style="margin-top: 30px">
+          <div class="col">
+          <a href= "https://www.jnu.edu.cn/" target="_blank"><img src="./Image_Resource/JNU.png"  width="110" height="110" > </a> 
+          </div>
+        
+	    	<div class="float-right" style="padding-top: 5px;">
+	    	<a class="btn btn-primary btn-filled btn-xs" href="https://github.com/quavo285" target="_blank" >Github</a>
+	    	</div>
+	    </div>
+      </div>
+   </div>
+    <div class="main-wrapper" style="position: relative; top: -4vh">
+      <div class="container main-sentence">
+        <div class="row justify-content-center text-center">
+          <div class="col-11 col-md-8 col-xl-7">
+            <div class="text-box">
+              <span
+                id="sentence"
+                style="
+                  vertical-align: middle;
+                  line-height: normal;
+                  white-space: nowrap;
+                  display: inline-block;
+                  font-size: 40px;
+                "
+                >诗句容器</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-5 text-center text-truncate" id="tags"></div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-4 col-xs-3 col-md-2 col-xl-2">
+            <a
+              class="btn btn-primary btn-xs btn-block"
+              href="#"
+              style="margin-top: 30px"
+              id="update"
+              onclick="update()"
+              >换一句</a
+            >
+          </div>
+            
+            <div class="col-4 col-xs-3 col-md-2 col-xl-2">
+            <a
+              class="btn btn-primary btn-xs btn-block"
+              href="#"
+              target="_blank"
+              style="margin-top: 30px"
+              id="search"
+              >在Bing中搜索此诗
+              </a>
+
+              <script>
+              function refresh(){
+                var s1 = "https://cn.bing.com/search?q=" , s2 = document.getElementById("sentence").innerText;
+                var lianjie;
+                lianjie =s1 + s2;    
+                document.getElementById("search").setAttribute("href","www.xxx.com");
+                document.getElementById("search").href = lianjie;   
+              }
+              var t2 = window.setInterval("refresh()",100); 
+
+            </script>
+
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+ 
